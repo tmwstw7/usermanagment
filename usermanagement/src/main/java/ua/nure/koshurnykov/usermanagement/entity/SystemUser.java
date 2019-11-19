@@ -1,11 +1,11 @@
-package ua.nure.koshurnykov.usermanagement;
+package ua.nure.koshurnykov.usermanagement.entity;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
 public class SystemUser {
-    private static final long serialVersionUID = -5553481350681901428L;
+    private static final long serialVersionUID = -15655651551595115L;
     private Long id;
     private String firstName;
     private String lastName;
