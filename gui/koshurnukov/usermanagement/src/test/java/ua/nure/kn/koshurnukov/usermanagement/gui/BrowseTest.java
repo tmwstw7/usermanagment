@@ -116,42 +116,4 @@ public class BrowseTest extends ApplicationTest {
         // than:
         verifyThat("#usersTable", hasNumRows(1));
     }
-
-//    @Test
-//    public void shouldEditUser() throws DatabaseException {
-//        ArrayList<User> users = new ArrayList<>();
-//        User newUser = new User(1L, INITIAL_FIRST_NAME, INITIAL_LAST_NAME, LocalDate.parse(INITIAL_DATE_OF_BIRTH));
-//        users.add(newUser);
-//
-//        mockUserDao.expectAndReturn("findAll", users);
-//        mockUserDao.expect("create", new AnyConstraintMatcher());
-//        mockUserDao.expect("update", new AnyConstraintMatcher());
-//        User updatedUser = new User(1L, UPDATE_FIRST_NAME, UPDATE_LAST_NAME, LocalDate.parse(UPDATE_DATE_OF_BIRTH));
-//        users.set(0, updatedUser);
-//        mockUserDao.expectAndReturn("findAll", users);
-//        mockUserDao.expectAndReturn("findAll", users);
-//
-//        // given:
-//        User user = new User(1L, INITIAL_FIRST_NAME, INITIAL_LAST_NAME, LocalDate.parse(INITIAL_DATE_OF_BIRTH));
-//        userDao.create(user);
-//        BrowseController controller = loader.getController();
-//        controller.loadUsersTableData();
-//        verifyThat("#usersTable", hasNumRows(1));
-//
-//
-//        // when:
-//        TableView table = lookup("#usersTable").query();
-//        table.getSelectionModel().select(0);
-//        clickOn("#editButton");
-//        clickOn("#firstNameField").eraseText(INITIAL_FIRST_NAME.length()).write(UPDATE_FIRST_NAME);
-//        clickOn("#lastNameField").eraseText(INITIAL_LAST_NAME.length()).write(UPDATE_LAST_NAME);
-//        clickOn("#dateOfBirthPicker").eraseText(INITIAL_DATE_OF_BIRTH.length()).write(UPDATE_DATE_OF_BIRTH);
-//        clickOn("#confirmButton");
-//
-//        // then:
-//        user.setFirstName(UPDATE_FIRST_NAME);
-//        user.setLastName(UPDATE_LAST_NAME);
-//        user.setDateOfBirth(LocalDate.parse(UPDATE_DATE_OF_BIRTH));
-//        verifyThat("#usersTable", containsRowAtIndex(0, user));
-//    }
 }
