@@ -1,53 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<project name="usermanagement" basedir="." default="test">
-    <property name="build.dir" value="${basedir}/build"/>
-    <property name="src.dir" value="${basedir}/src"/>
-    <property name="main.src.dir" value="${basedir}/src/main/java"/>
-    <property name="test.src.dir" value="${basedir}/src/test/java"/>
-    <property name="lib.dir" value="${basedir}/lib"/>
-
-    <path id="classpath.test">
-        <pathelement location="${lib.dir}/junit-4.12.jar"/>
-        <pathelement location="${lib.dir}/hamcrest-core-1.3.jar"/>
-        <pathelement location="${build.dir}"/>
-    </path>
-
-    <target name="test" depends="test-compile">
-        <junit printsummary="on" haltonfailure="yes" fork="true">
-            <classpath>
-                <path refid="classpath.test"/>
-            </classpath>
-            <formatter type="plain"/>
-            <batchtest>
-                <fileset dir="${src.dir}" includes="**/*Test.java"/>
-            </batchtest>
-            <!--<test name="test.java.ua.nure.kn.akhremenko.usermanagement.UserTest"/>-->
-        </junit>
-    </target>
-
-    <target name="test-compile" depends="compile">
-        <javac srcdir="${test.src.dir}" destdir="${build.dir}" includeantruntime="false">
-            <classpath refid="classpath.test"/>
-        	<classpath>
-        		<path id="org.junit" location="/Users/viktoria/.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        	</classpath>
-        </javac>
-    </target>
-
-    <target name="compile" depends="init">
-        <javac srcdir="${main.src.dir}" destdir="${build.dir}" includeantruntime="false"/>
-    </target>
-
-    <target name="init" depends="clean">
-        <mkdir dir="${build.dir}"/>
-    </target>
-
-    <target name="clean">
-        <delete dir="${build.dir}" failonerror="no"/>
-    </target>
-
-=======
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ====================================================================== 
      2 окт. 2019 г. 16:34:10                                                        
@@ -62,63 +12,16 @@
 	<property name="build-dir" value="${basedir}/bin" />
 	<property name="test-java-dir" value="${basedir}/src/test/java"/>
 	<property name="main-java-dir" value="${basedir}/src/main/java"/>
+	<property name="main-webapp-dir" value="${basedir}/src/main/webapp"/>
+	<property name="main-webapp-webinf-dir" value="${main-webapp-dir}/WEB-INF"/>
+	<property name="lib-dir" value="${basedir}/lib"/>
 	
-    <!-- ================================= 
-          target: test              
-         ================================= -->
-    <target name="test" depends="test-compile" description="description">
-        <junit>
-        	<classpath>
-        		<pathelement location="${build-dir}"/>
-        	</classpath>
-			<classpath>
-				<path id="org.junit" location="/snap/intellij-idea-ultimate/173/lib/junit-4.12.jar"/>
-			</classpath>
-
-			<formatter type="plain"/>
-        	<test name="ua.nure.cs.koshurnykov.usermanagement.domain.UserTest"/>
-        </junit>
-    </target>
-
-    <!-- - - - - - - - - - - - - - - - - - 
-          target: test-compile                      
-         - - - - - - - - - - - - - - - - - -->
-	<target name="compile" depends="init">
-		<javac srcdir="${main-java-dir}" destdir="${build-dir}" includeantruntime="false"/>
-	</target>
-	
-    <target name="test-compile" depends="compile">
-    	<javac srcdir="${test-java-dir}" destdir="${build-dir}" includeantruntime="false">
-    		<classpath>
-    			<path id="org.junit" location="/snap/intellij-idea-ultimate/173/lib/junit-4.12.jar"/>
-    		</classpath>
-    	</javac>
-    </target>
-	
-	<target name="init" depends="clean">
-		<mkdir dir="${build-dir}"/>
-	</target>
-	
-	<target name = "clean">
-		<delete dir="${build-dir}" failonerror="no"/>
-	</target>
->>>>>>> b143eea80910c2cf9f8fd2d1a002f5a3676b6665
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- ====================================================================== 
-     2 окт. 2019 г. 16:34:10                                                        
-
-     project    
-     description
-                   
-     milan                                                                
-     ====================================================================== -->
-<project name="usermanagement" default="test" basedir=".">
-	
-	<property name="build-dir" value="${basedir}/bin" />
-	<property name="test-java-dir" value="${basedir}/src/test/java"/>
-	<property name="main-java-dir" value="${basedir}/src/main/java"/>
-	
+	<property name="war-name" value="users"/>
+	<property name="war-dir" value="${build-dir}/${war-name}"/>
+	<property name="war-jsp-dir" value="${war-dir}"/>
+	<property name="war-webinf-dir" value="${war-dir}/WEB-INF"/>
+	<property name="war-lib-dir" value="${war-webinf-dir}/lib"/>
+	<property name="war-classes-dir" value="${war-webinf-dir}/classes"/>
     <!-- ================================= 
           target: test              
          ================================= -->
@@ -128,13 +31,46 @@
         		<pathelement location="${build-dir}"/>
         	</classpath>
         	<formatter type="plain"/>
-        	<test name="ua.nure.cs.petrykin.usermanagement.domain.UserTest"/>
+        	<test name="ua.nure.cs.koshurnikov.usermanagement.domain.UserTest"/>
         </junit>
     </target>
 
     <!-- - - - - - - - - - - - - - - - - - 
           target: test-compile                      
          - - - - - - - - - - - - - - - - - -->
+	<target name="war.exploded" depends="compile">
+		<copy todir="${war-jsp-dir}">
+			<fileset dir="${main-webapp-dir}"/>
+		</copy>
+		<copy todir="${war-lib-dir}">
+			<fileset dir="${lib-dir}">
+				<include name="hsqldb*.jar"/>
+				<include name="jstl*.jar"/>
+				<include name="standard*.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${war-classes-dir}">
+			<fileset dir="${main-resources-dir}"/>
+		</copy>
+		<copy todir ="${war-classes-dir}">
+			<fileset dir="${classes-dir}"/>
+		</copy>
+	</target>
+	
+	<target name="war" depends="war.exploded">
+		<delete file="${build-dir}/${war-name}.war" failnonerror="no"/>
+		<war destfile="${build-dir}/${war-name}.war" webxml="${main-webapp-webinf-dir}/web.xml">
+			<fileset dir="${war-jsp-dir}">
+				<exclude name="WEB-INF/*.*"/>
+			</fileset>
+			<classes dir="${war-classes-dir}"/>
+			<lib dir="${war-lib-dir}"/>
+			<webinf dir="${war-webinf-dir">
+				<exclude name="web.xml"/>
+			</webinf>
+		</war>
+	</target>
+	
 	<target name="compile" depends="init">
 		<javac srcdir="${main-java-dir}" destdir="${build-dir}" includeantruntime="false"/>
 	</target>
@@ -154,5 +90,4 @@
 	<target name = "clean">
 		<delete dir="${build-dir}" failonerror="no"/>
 	</target>
->>>>>>> d899b936ce53be6f2f6323043bbcdd9a5e6247b2
 </project>
